@@ -6,6 +6,12 @@
 
 # Location of the letsencrypt script
 $le = "/root/letsencrypt/letsencrypt-auto";
+if (! file_exists($le)){
+	echo "You should have the letsencrypt directory cloned to /root/ \n";
+	echo "Exiting\n";
+	die;
+}
+
 $handle = fopen("php://stdin","r");
 echo "Welcome to Letsencrypt SSL Setup Script\n";
 echo "Please Enter the details requested\n";
@@ -29,6 +35,10 @@ echo "Command completed: \n$result\n";
 echo "Setting up certificates for the domain\n";
 $whmusername = 'root';
 $hash = file_get_contents('/root/.accesshash');
+if (! file_exists('/root/.accesshash')){
+	echo "Please generate the accesshash \n";
+	die;
+}
 $query = "https://127.0.0.1:2087/json-api/listaccts?api.version=1&search=$username&searchtype=user";
 $curl = curl_init();
 curl_setopt($curl, CURLOPT_SSL_VERIFYHOST,0);
